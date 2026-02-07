@@ -36,15 +36,6 @@ jobs:
       - name: Lint
         run: ./gradlew spotlessCheck
 
-      - name: Fix formatting
-        run: ./gradlew spotlessApply
-        
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Fix formatting issues"
-          branch: ${{ github.head_ref }}
-
       - name: Clean build
         run: ./gradlew clean
 

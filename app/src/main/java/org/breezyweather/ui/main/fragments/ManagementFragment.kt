@@ -175,7 +175,9 @@ open class ManagementFragment : MainModuleFragment(), TouchReactor {
         var notificationDismissed by remember {
             mutableStateOf(viewModel.statementManager.isPostNotificationDialogAlreadyShown)
         }
-
+        var notificationAppUpdateCheckDismissed by remember {
+            mutableStateOf(viewModel.statementManager.isAppUpdateCheckDialogAlreadyShown)
+        }
 
         val dialogChooseWeatherSourcesOpenState = viewModel.dialogChooseWeatherSourcesOpen.collectAsState()
         val selectedLocationState = viewModel.selectedLocation.collectAsState()
@@ -337,7 +339,28 @@ open class ManagementFragment : MainModuleFragment(), TouchReactor {
                             }
                         }
                     }
-
+                    if (BuildConfig.FLAVOR != "freenet") {
+                        AnimatedVisibilitySlideVertically(
+                            hasNotificationPermission == true && !notificationAppUpdateCheckDismissed
+                        ) {
+                            Column {
+                                NotificationCard(
+                                    title = stringResource(R.string.dialog_app_update_check_title),
+                                    summary = stringResource(R.string.dialog_app_update_check_content),
+                                    onClick = {
+                                        viewModel.statementManager.setAppUpdateCheckDialogAlreadyShown()
+                                        notificationAppUpdateCheckDismissed = true
+                                        SettingsManager.getInstance(requireContext()).isAppUpdateCheckEnabled = true
+                                    },
+                                    onClose = {
+                                        viewModel.statementManager.setAppUpdateCheckDialogAlreadyShown()
+                                        notificationAppUpdateCheckDismissed = true
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.small_margin)))
+                            }
+                        }
+                    }
                     AndroidView(
                         modifier = Modifier
                             .fillMaxSize()

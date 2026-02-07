@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
 import org.breezyweather.BuildConfig
 import org.breezyweather.R
-
+import org.breezyweather.background.updater.AppUpdateChecker
 import org.breezyweather.common.activities.BreezyViewModel
 import org.breezyweather.common.activities.livedata.BusLiveData
 import org.breezyweather.common.extensions.hasPermission
@@ -71,7 +71,7 @@ class MainActivityViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository,
     private val currentLocationStore: CurrentLocationStore,
-
+    private val updateChecker: AppUpdateChecker,
 ) : BreezyViewModel(application), WeatherRequestCallback {
 
     // flow
@@ -338,7 +338,15 @@ class MainActivityViewModel @Inject constructor(
         }
         _loading.value = true
 
-
+        if (BuildConfig.FLAVOR != "freenet" && SettingsManager.getInstance(getApplication()).isAppUpdateCheckEnabled) {
+            viewModelScope.launchIO {
+                try {
+                    updateChecker.checkForUpdate(getApplication(), forceCheck = false)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
 
         if (!checkPermissions) {
             updating = true
