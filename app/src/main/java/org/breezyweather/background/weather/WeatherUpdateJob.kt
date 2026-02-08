@@ -44,7 +44,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import org.breezyweather.BuildConfig
-import org.breezyweather.background.updater.AppUpdateChecker
 import org.breezyweather.common.bus.EventBus
 import org.breezyweather.common.extensions.createFileInCacheDir
 import org.breezyweather.common.extensions.getFormattedDate
@@ -86,7 +85,6 @@ class WeatherUpdateJob @AssistedInject constructor(
     private val sourceManager: SourceManager,
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository,
-    private val updateChecker: AppUpdateChecker,
 ) : CoroutineWorker(context, workerParams) {
 
     private val notifier = WeatherUpdateNotifier(context)
@@ -128,16 +126,6 @@ class WeatherUpdateJob @AssistedInject constructor(
                 }
             } finally {
                 notifier.cancelProgressNotification()
-                /*if ((BuildConfig.FLAVOR != "freenet" && SettingsManager.getInstance(context).isAppUpdateCheckEnabled) ||
-                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-                ) {*/
-                if (BuildConfig.FLAVOR != "freenet" && SettingsManager.getInstance(context).isAppUpdateCheckEnabled) {
-                    try {
-                        updateChecker.checkForUpdate(context, forceCheck = false)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
             }
         }
     }
