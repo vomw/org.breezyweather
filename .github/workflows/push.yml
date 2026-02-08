@@ -32,8 +32,14 @@ jobs:
       - name: Fix formatting
         run: |
           ./gradlew spotlessApply
+          mkdir reports
+          cp /home/runner/work/_temp/.gradle-actions/build-results ./reports
+          cp /home/runner/work/org.breezyweather/org.breezyweather/build/reports/problems/problems-report.html ./reports/
           git status
-          ls -lt
+          git add .
+          git commit -m "gradlew spotlessApply"
+          git push
+          git remote -v
 
       - name: Lint
         run: ./gradlew spotlessCheck
