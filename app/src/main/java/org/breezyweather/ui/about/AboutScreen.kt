@@ -150,7 +150,7 @@ internal fun AboutScreen(
             }
 
             largeSeparatorItem()
-            item { SectionTitle(stringResource(R.id.about_app)) }
+            item { SectionTitle(stringResource(R.string.about_app)) }
             if (activity != null) {
                 val appLinks = aboutViewModel.getAboutAppLinks(activity)
                 itemsIndexed(appLinks) { index, item ->
