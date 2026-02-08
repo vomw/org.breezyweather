@@ -35,9 +35,12 @@ jobs:
           mkdir reports
           cp -r /home/runner/work/_temp/.gradle-actions/build-results ./reports
           cp /home/runner/work/org.breezyweather/org.breezyweather/build/reports/problems/problems-report.html ./reports/
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
           git status
-          git add .
-          git commit -m "gradlew spotlessApply"
+          git add -u
+          git add reports/
+          git commit -m "github action"
           git push
           git remote -v
 
