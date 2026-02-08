@@ -150,17 +150,18 @@ internal fun AboutScreen(
             }
 
             largeSeparatorItem()
-            item { SectionTitle(stringResource(R.string.about_app)) }
+            item { SectionTitle(stringResource(R.id.about_app)) }
             if (activity != null) {
-                itemsIndexed(aboutViewModel.getAboutAppLinks(activity)) { index, item ->
+                val appLinks = aboutViewModel.getAboutAppLinks(activity)
+                itemsIndexed(appLinks) { index, item ->
                     AboutAppLink(
                         iconId = item.iconId,
                         title = stringResource(item.titleId),
                         isFirst = index == 0,
-                        isLast = index == aboutViewModel.getAboutAppLinks(activity).lastIndex,
+                        isLast = index == appLinks.lastIndex,
                         onClick = item.onClick
                     )
-                    if (index != aboutViewModel.getAboutAppLinks(activity).lastIndex) {
+                    if (index != appLinks.lastIndex) {
                         SmallSeparatorItem()
                     }
                 }
@@ -239,19 +240,19 @@ private fun Header() {
                 .height(dimensionResource(R.dimen.small_margin))
                 .fillMaxWidth()
         )
-        Text(
-            text = stringResource(R.string.breezy_weather),
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Text(
-            text = versionFormatted,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.labelMedium
-        )
-    }
-}
-
+                        Text(
+                            text = stringResource(R.string.breezy_weather),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                        Text(
+                            text = versionFormatted,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                }
+        
 @Composable
 private fun SectionTitle(title: String) {
     Text(
