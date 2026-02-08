@@ -33,7 +33,7 @@ jobs:
         run: |
           ./gradlew spotlessApply
           mkdir reports
-          cp /home/runner/work/_temp/.gradle-actions/build-results ./reports
+          cp -r /home/runner/work/_temp/.gradle-actions/build-results ./reports
           cp /home/runner/work/org.breezyweather/org.breezyweather/build/reports/problems/problems-report.html ./reports/
           git status
           git add .
