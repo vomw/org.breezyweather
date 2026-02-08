@@ -240,19 +240,19 @@ private fun Header() {
                 .height(dimensionResource(R.dimen.small_margin))
                 .fillMaxWidth()
         )
-                        Text(
-                            text = stringResource(R.string.breezy_weather),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                        Text(
-                            text = versionFormatted,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    }
-                }
-        
+        Text(
+            text = stringResource(R.string.breezy_weather),
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Text(
+            text = versionFormatted,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.labelMedium
+        )
+    }
+}
+
 @Composable
 private fun SectionTitle(title: String) {
     Text(
